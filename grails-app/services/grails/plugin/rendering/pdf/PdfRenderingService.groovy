@@ -16,6 +16,7 @@
 package grails.plugin.rendering.pdf
 
 import grails.plugin.rendering.RenderingService
+import org.xhtmlrenderer.pdf.ITextFontResolver
 import org.xhtmlrenderer.pdf.ITextRenderer
 import org.w3c.dom.Document
 
@@ -39,6 +40,14 @@ class PdfRenderingService extends RenderingService {
 		renderer.layout()
 		renderer.createPDF(outputStream)
 	}
+	
+	protected doRender(Map args, Document document, OutputStream outputStream, Map baseFont) {
+		def renderer = new ITextRenderer()
+		configureRenderer(renderer, baseFont)
+		renderer.setDocument(document, args.base)
+		renderer.layout()
+		renderer.createPDF(outputStream)
+	}
 
 	protected getDefaultContentType() {
 		"application/pdf"
@@ -51,5 +60,11 @@ class PdfRenderingService extends RenderingService {
 		
 		sharedContext.userAgentCallback = userAgent
 		userAgent.sharedContext = sharedContext
+	}
+	
+	protected configureRenderer(ITextRenderer renderer, Map font) {
+		configureRenderer(renderer)
+		ITextFontResolver fontResolver = renderer.getFontResolver()
+		fontResolver.addFont(font.path, font.encoding, font.embedded)
 	}
 }

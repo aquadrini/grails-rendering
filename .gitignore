@@ -5,3 +5,7 @@ docs
 *.zip
 .DS_Store
 grails-rendering-*
+.classpath
+.project
+.settings
+target-eclipse
