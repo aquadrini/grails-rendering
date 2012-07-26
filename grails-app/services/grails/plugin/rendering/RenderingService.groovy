@@ -34,7 +34,7 @@ abstract class RenderingService {
 		def document = args.document ?: xhtmlDocumentService.createDocument(args)
 		render(args, document, outputStream)
 	}
-
+	
 	OutputStream render(Map args, Document document, OutputStream outputStream = new ByteArrayOutputStream()) {
 		try {
 			processArgs(args)
@@ -48,7 +48,7 @@ abstract class RenderingService {
 			throw new RenderingException(e)
 		}
 	}
-	
+		
 	boolean render(Map args, HttpServletResponse response) {
 		processArgs(args)
 		if (args.bytes) {
@@ -65,6 +65,7 @@ abstract class RenderingService {
 		}
 		false
 	}
+	
 
 	protected writeToResponse(Map args, HttpServletResponse response, InputStream input) {
 		configureResponse(args, response)

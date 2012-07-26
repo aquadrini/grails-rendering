@@ -35,15 +35,10 @@ class PdfRenderingService extends RenderingService {
 	
 	protected doRender(Map args, Document document, OutputStream outputStream) {
 		def renderer = new ITextRenderer()
-		configureRenderer(renderer)
-		renderer.setDocument(document, args.base)
-		renderer.layout()
-		renderer.createPDF(outputStream)
-	}
-	
-	protected doRender(Map args, Document document, OutputStream outputStream, Map baseFont) {
-		def renderer = new ITextRenderer()
-		configureRenderer(renderer, baseFont)
+		if (args.baseFont)
+			configureRenderer(renderer, args.baseFont)
+		else 
+			configureRenderer(renderer)
 		renderer.setDocument(document, args.base)
 		renderer.layout()
 		renderer.createPDF(outputStream)
